@@ -1,0 +1,363 @@
+[gd_scene load_steps=21 format=3 uid="uid://cer5vw716gkig"]
+
+[ext_resource type="Script" path="res://car.gd" id="1_u80dx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gs3a6"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_iext5"]
+sky_material = SubResource("ProceduralSkyMaterial_gs3a6")
+
+[sub_resource type="Environment" id="Environment_1nnwg"]
+background_mode = 2
+sky = SubResource("Sky_iext5")
+tonemap_mode = 2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_crj35"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n3qfl"]
+noise = SubResource("FastNoiseLite_crj35")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ebixn"]
+albedo_color = Color(0.415686, 0.505882, 0.423529, 1)
+albedo_texture = SubResource("NoiseTexture2D_n3qfl")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2dwg7"]
+size = Vector3(1, 1.3064, 0.897949)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kqln4"]
+height = 1.49071
+
+[sub_resource type="Animation" id="Animation_bh2yp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mcikn"]
+resource_name = "jump"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-6.28319, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ix7o7"]
+resource_name = "skid_false"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_34a10"]
+resource_name = "skid_left"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -0.261799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fo3uu"]
+resource_name = "skid_right"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0.261799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.1, 0.2, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kt3ev"]
+_data = {
+"RESET": SubResource("Animation_bh2yp"),
+"jump": SubResource("Animation_mcikn"),
+"skid_false": SubResource("Animation_ix7o7"),
+"skid_left": SubResource("Animation_34a10"),
+"skid_right": SubResource("Animation_fo3uu")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f1f6q"]
+animation = &"skid_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6bnh7"]
+animation = &"skid_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tu2lp"]
+animation = &"skid_false"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_8wuxv"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_f1f6q")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_6bnh7")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_tu2lp")
+blend_point_2/pos = 0.0
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_fno0j"]
+graph_offset = Vector2(-332.091, 10.1653)
+nodes/skid_bs/node = SubResource("AnimationNodeBlendSpace1D_8wuxv")
+nodes/skid_bs/position = Vector2(80, 120)
+node_connections = [&"output", 0, &"skid_bs"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1nnwg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.015
+directional_shadow_max_distance = 9.1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(45.4651, 1, 46.7568)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66452, 24.1128)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(45.4651, 3.03699, 9.17053)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96991, -0.243463, 0, 0.243463, 0.96991, -17.4328, -11.2847, 8.13113)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96991, -0.243463, 0, 0.243463, 0.96991, 16.2956, 0.477579, 8.13113)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.91491, -0.403657, 0, 0.403657, 0.91491, 16.2956, 2.90784, -0.456804)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, 0)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -2)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -4)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -6)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, 3)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.6342, 14.4611, -1.86406)
+size = Vector3(20.4224, 29.2386, 44.0068)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -21.5812, 17.1837, 0)
+operation = 2
+radius = 17.5231
+height = 23.5788
+sides = 64
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0115, 7.18878, 14.9455)
+size = Vector3(21.3868, 2.6333, 2.51746)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0115, 7.0899, -15.5057)
+size = Vector3(21.3868, 2.6333, 2.51746)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.646091, -0.47205, 0.599779, 0, 0.785812, 0.618465, -0.763261, 0.399585, -0.507706, 25.3604, 24.9785, -24.6391)
+projection = 1
+current = true
+size = 26.781
+near = 0.04
+
+[node name="Car" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.47308, 3.61941, 0)
+floor_stop_on_slope = false
+floor_max_angle = 1.22173
+script = ExtResource("1_u80dx")
+
+[node name="model" type="Node3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Car/model"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, 0.20573, 0.143231)
+size = Vector3(0.59375, 0.331055, 0.710693)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Car/model"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, -0.125131, -0.0314232)
+size = Vector3(1.31287, 0.428711, 0.9)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Car/model"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, -0.39254)
+radius = 0.198039
+height = 1.02949
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Car/model"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, 0.372144)
+radius = 0.198039
+height = 1.02949
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0510254, 2.23039e-09)
+shape = SubResource("BoxShape3D_2dwg7")
+disabled = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0366621, -0.0490813)
+shape = SubResource("CapsuleShape3D_kqln4")
+
+[node name="AnimationTree" type="AnimationTree" parent="Car"]
+deterministic = false
+libraries = {
+"": SubResource("AnimationLibrary_kt3ev")
+}
+tree_root = SubResource("AnimationNodeBlendTree_fno0j")
+anim_player = NodePath("../AnimationPlayer")
+parameters/skid_bs/blend_position = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Car"]
+libraries = {
+"": SubResource("AnimationLibrary_kt3ev")
+}
+
+[node name="Camera3D" type="Camera3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454304, 2.4348)
+
+[node name="CSGCylinder3D6" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, 1)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, -1)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, -3)
+use_collision = true
+height = 4.85927
+sides = 16
