@@ -1,0 +1,220 @@
+[gd_scene load_steps=15 format=3 uid="uid://b3iyk77q22i2x"]
+
+[ext_resource type="Script" path="res://scenes/player/car.gd" id="1_dvvob"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2dwg7"]
+size = Vector3(1, 1.3064, 0.897949)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kqln4"]
+height = 1.49071
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f1f6q"]
+animation = &"skid_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6bnh7"]
+animation = &"skid_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tu2lp"]
+animation = &"skid_false"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_8wuxv"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_f1f6q")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_6bnh7")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_tu2lp")
+blend_point_2/pos = 0.0
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_fno0j"]
+graph_offset = Vector2(-332.091, 10.1653)
+nodes/skid_bs/node = SubResource("AnimationNodeBlendSpace1D_8wuxv")
+nodes/skid_bs/position = Vector2(80, 120)
+node_connections = [&"output", 0, &"skid_bs"]
+
+[sub_resource type="Animation" id="Animation_bh2yp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mcikn"]
+resource_name = "jump"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-6.28319, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ix7o7"]
+resource_name = "skid_false"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_34a10"]
+resource_name = "skid_left"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -0.261799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fo3uu"]
+resource_name = "skid_right"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0.261799)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("model:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.1, 0.2, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kt3ev"]
+_data = {
+"RESET": SubResource("Animation_bh2yp"),
+"jump": SubResource("Animation_mcikn"),
+"skid_false": SubResource("Animation_ix7o7"),
+"skid_left": SubResource("Animation_34a10"),
+"skid_right": SubResource("Animation_fo3uu")
+}
+
+[node name="Car" type="CharacterBody3D"]
+floor_stop_on_slope = false
+floor_max_angle = 1.22173
+script = ExtResource("1_dvvob")
+
+[node name="model" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="model"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, 0.20573, 0.143231)
+size = Vector3(0.59375, 0.331055, 0.710693)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="model"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, -0.125131, -0.0314232)
+size = Vector3(1.31287, 0.428711, 0.9)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="model"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, -0.39254)
+radius = 0.198039
+height = 1.02949
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="model"]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, 0.372144)
+radius = 0.198039
+height = 1.02949
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0510254, 2.23039e-09)
+shape = SubResource("BoxShape3D_2dwg7")
+disabled = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0366621, -0.0490813)
+shape = SubResource("CapsuleShape3D_kqln4")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+deterministic = false
+tree_root = SubResource("AnimationNodeBlendTree_fno0j")
+anim_player = NodePath("../AnimationPlayer")
+parameters/skid_bs/blend_position = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kt3ev")
+}
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454304, 2.4348)

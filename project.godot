@@ -14,6 +14,14 @@ config/name="CarPlatformer"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+CyclopsAutoload="*res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/cyclops_level_builder/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

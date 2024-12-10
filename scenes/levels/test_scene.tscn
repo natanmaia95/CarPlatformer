@@ -1,0 +1,151 @@
+[gd_scene load_steps=8 format=3 uid="uid://cer5vw716gkig"]
+
+[ext_resource type="PackedScene" uid="uid://b3iyk77q22i2x" path="res://scenes/player/car_test.tscn" id="1_d4o6y"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gs3a6"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_iext5"]
+sky_material = SubResource("ProceduralSkyMaterial_gs3a6")
+
+[sub_resource type="Environment" id="Environment_1nnwg"]
+background_mode = 2
+sky = SubResource("Sky_iext5")
+tonemap_mode = 2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_crj35"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n3qfl"]
+noise = SubResource("FastNoiseLite_crj35")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ebixn"]
+albedo_color = Color(0.415686, 0.505882, 0.423529, 1)
+albedo_texture = SubResource("NoiseTexture2D_n3qfl")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1nnwg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.015
+directional_shadow_max_distance = 9.1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(45.4651, 1, 46.7568)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66452, 24.1128)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(45.4651, 3.03699, 9.17053)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96991, -0.243463, 0, 0.243463, 0.96991, -17.4328, -11.2847, 8.13113)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96991, -0.243463, 0, 0.243463, 0.96991, 16.2956, 0.477579, 8.13113)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.96991, -0.243463, 0, 0.243463, 0.96991, 1.31904, 0.0469094, 9.84684)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(6.00681, 1, 14.2224)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.91491, -0.403657, 0, 0.403657, 0.91491, 16.2956, 2.90784, -0.456804)
+material_override = SubResource("StandardMaterial3D_ebixn")
+use_collision = true
+size = Vector3(12.9521, 1, 17.7603)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, 0)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -2)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -4)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0903493, -6)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D5" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, 3)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.6342, 14.4611, -1.86406)
+size = Vector3(20.4224, 29.2386, 44.0068)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, -21.5812, 17.1837, 0)
+operation = 2
+radius = 17.5231
+height = 23.5788
+sides = 64
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0115, 7.18878, 14.9455)
+size = Vector3(21.3868, 2.6333, 2.51746)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0115, 7.0899, -15.5057)
+size = Vector3(21.3868, 2.6333, 2.51746)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.646091, -0.47205, 0.599779, 0, 0.785812, 0.618465, -0.763261, 0.399585, -0.507706, 25.3604, 24.9785, -24.6391)
+projection = 1
+current = true
+size = 26.781
+near = 0.04
+
+[node name="Car" parent="." instance=ExtResource("1_d4o6y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.56579, 0)
+
+[node name="CSGCylinder3D6" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, 1)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, -1)
+use_collision = true
+height = 4.85927
+sides = 16
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 3, 0.0903493, -3)
+use_collision = true
+height = 4.85927
+sides = 16

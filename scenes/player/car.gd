@@ -6,6 +6,9 @@ var boost_timer := 0.0
 
 var steering_speed = 220
 
+var engine_power := 60.0
+var boost_power := 60.0
+
 var was_on_floor_last_frame := false
 var velocity_last_frame := Vector3.ZERO
 
@@ -18,6 +21,7 @@ func _physics_process(delta):
 
 	
 	var steering = Input.get_axis("ui_left", "ui_right")
+	if not is_on_floor(): steering /= 2.0
 	#if boost_timer > 0:
 		#steering *= 1.5
 	if get_speed() > 3.0:
@@ -26,15 +30,18 @@ func _physics_process(delta):
 	# apply skid drag
 	velocity -= velocity.project(global_transform.basis.x) * 5.0 * delta 
 	# apply rolling drag
-	velocity -= velocity.project(-global_transform.basis.z) * 3.0 * delta
+	velocity -= velocity.project(-global_basis.z) * 3.0 * delta
 	
 	# apply engine
-	velocity += -global_basis.z * Input.get_action_strength("ui_up") * 70 * delta
+	velocity += -global_basis.z * Input.get_action_strength("ui_up") * engine_power * delta
 	# apply boost
 	var boost_input = Input.get_action_strength("ui_accept")
 	if boost_input and boost_timer <= 0:
 		boost_timer = 0.5
-		velocity += -global_basis.z * 30
+		velocity += get_projected_forwards() * 20 #push
+	if boost_timer > 0 and is_on_floor():
+		velocity += get_projected_forwards() * boost_power * delta
+	
 	#if boost_timer > 0:
 		#velocity += -global_basis.z * 20 * delta
 	
@@ -83,6 +90,10 @@ func _process(delta):
 	var old_skid_bs = $AnimationTree.get("parameters/skid_bs/blend_position")
 	$AnimationTree.set("parameters/skid_bs/blend_position", move_toward(old_skid_bs, skid_amount, 8 * delta))
 	
+	if Input.is_key_pressed(KEY_R): 
+		get_tree().reload_current_scene()
+		return
+		
 	#if is_on_floor():
 		#look_at(global_position - global_basis.z, get_floor_normal())
 
@@ -116,3 +127,9 @@ func get_speed():
 	var real = get_real_velocity()
 	var speed = (real - real.project(global_basis.y)).length()
 	return speed
+
+func get_forwards() -> Vector3:
+	return -global_basis.z
+
+func get_projected_forwards() -> Vector3:
+	return -global_basis.z - (-global_basis.z).project(Vector3.UP)
