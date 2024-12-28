@@ -1,4 +1,4 @@
-[gd_scene load_steps=267 format=3 uid="uid://cxcef46p7vc2w"]
+[gd_scene load_steps=274 format=3 uid="uid://cxcef46p7vc2w"]
 
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_blocks.gd" id="3_4l4na"]
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="4_uoaoh"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" path="res://scripts/level_design/simple_path_3d.gd" id="9_v7moi"]
 [ext_resource type="Script" path="res://scripts/level_design/player_kill_area_3d.gd" id="10_10nmq"]
 [ext_resource type="Script" path="res://scripts/level_design/player_detector_area_3d.gd" id="11_de5a1"]
+[ext_resource type="Script" path="res://scripts/level_design/player_button_area_3d.gd" id="12_wcy1g"]
+[ext_resource type="Script" path="res://scripts/level_design/simple_door.gd" id="13_b7eja"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jnotp"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -2537,6 +2539,61 @@ size = Vector3(12, 1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_4wo61"]
 size = Vector3(1, 1, 8.45752)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_rxwf0"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="Animation" id="Animation_35exi"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vca4k"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_teg7y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hbtbm"]
+_data = {
+"RESET": SubResource("Animation_teg7y"),
+"close": SubResource("Animation_vca4k"),
+"open": SubResource("Animation_35exi")
+}
+
 [node name="TestCyclops" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -2665,8 +2722,11 @@ mesh_vector_data = SubResource("Resource_53tk8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.128816, -20)
 curve = SubResource("Curve3D_p0jat")
 script = ExtResource("9_v7moi")
+enabled = false
 follow_speed = 20.0
 loop = false
+corner_wait = 1.0
+starting_ratio = 0.5
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="SimplePath3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -2685,8 +2745,11 @@ shape = SubResource("BoxShape3D_p518e")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.128816, -20)
 curve = SubResource("Curve3D_b5sof")
 script = ExtResource("9_v7moi")
+enabled = false
 follow_speed = 20.0
 loop = false
+corner_wait = 1.0
+starting_ratio = 0.5
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="SimplePath3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -2718,3 +2781,31 @@ script = ExtResource("11_de5a1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDetectorArea3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.78077, 0, -3.72876)
 shape = SubResource("BoxShape3D_4wo61")
+
+[node name="PlayerButtonArea3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.92836, 0, -6.30473)
+script = ExtResource("12_wcy1g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerButtonArea3D"]
+shape = SubResource("BoxShape3D_rxwf0")
+
+[node name="SimpleDoor" type="Node3D" parent="." node_paths=PackedStringArray("anim_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 13.6)
+script = ExtResource("13_b7eja")
+set_up = true
+anim_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SimpleDoor"]
+libraries = {
+"": SubResource("AnimationLibrary_hbtbm")
+}
+speed_scale = -1.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="SimpleDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 0, 0)
+use_collision = true
+size = Vector3(8, 1, 1)
+
+[connection signal="toggled" from="PlayerButtonArea3D" to="SimplePath3D" method="toggle"]
+[connection signal="toggled" from="PlayerButtonArea3D" to="SimplePath3D2" method="toggle"]
+[connection signal="toggled" from="PlayerButtonArea3D" to="SimpleDoor" method="toggle"]
