@@ -22,6 +22,11 @@ CyclopsAutoload="*res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
 
 enabled=PackedStringArray("res://addons/cyclops_level_builder/plugin.cfg")
 
+[layer_names]
+
+3d_physics/layer_9="PLAYER_HURTBOX"
+3d_physics/layer_13="PLAYER_COL"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

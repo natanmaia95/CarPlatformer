@@ -1,9 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://b3iyk77q22i2x"]
+[gd_scene load_steps=14 format=3 uid="uid://b3iyk77q22i2x"]
 
 [ext_resource type="Script" path="res://scenes/player/car.gd" id="1_dvvob"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_2dwg7"]
-size = Vector3(1, 1.3064, 0.897949)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kqln4"]
 height = 1.49071
@@ -171,6 +168,7 @@ _data = {
 }
 
 [node name="Car" type="CharacterBody3D"]
+collision_layer = 4097
 floor_stop_on_slope = false
 floor_max_angle = 1.22173
 script = ExtResource("1_dvvob")
@@ -179,30 +177,25 @@ script = ExtResource("1_dvvob")
 transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="model"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, 0.20573, 0.143231)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.206, 0.143)
 size = Vector3(0.59375, 0.331055, 0.710693)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="model"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0322167, -0.125131, -0.0314232)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.125131, -0.0314232)
 size = Vector3(1.31287, 0.428711, 0.9)
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="model"]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, -0.39254)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, -0.3, -0.39254)
 radius = 0.198039
 height = 1.02949
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="model"]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.0322167, -0.3, 0.372144)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, -0.3, 0.372144)
 radius = 0.198039
 height = 1.02949
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0510254, 2.23039e-09)
-shape = SubResource("BoxShape3D_2dwg7")
-disabled = true
-
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0366621, -0.0490813)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.0113891, 0)
 shape = SubResource("CapsuleShape3D_kqln4")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

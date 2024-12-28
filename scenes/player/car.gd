@@ -1,3 +1,4 @@
+class_name PlayerCar
 extends CharacterBody3D
 
 @export var bounce_on_walls := false
@@ -12,13 +13,22 @@ var boost_power := 60.0
 var was_on_floor_last_frame := false
 var velocity_last_frame := Vector3.ZERO
 
+var alive := true
+
 func _physics_process(delta):
 	if boost_timer > 0:
 		boost_timer -= delta
 	
-	align_up_with_floor(delta)
+	#test
+	#if Input.is_action_just_pressed("ui_cancel"): kill()
 	
-
+	if not alive: 
+		velocity += Vector3.DOWN * 40.0 * delta
+		velocity *= 0.98
+		move_and_slide()
+		return
+	
+	align_up_with_floor(delta)
 	
 	var steering = Input.get_axis("ui_left", "ui_right")
 	if not is_on_floor(): steering /= 2.0
@@ -80,7 +90,6 @@ func _physics_process(delta):
 	was_on_floor_last_frame = is_on_floor()
 	velocity_last_frame = velocity
 	move_and_slide()
-	
 
 
 
@@ -133,3 +142,20 @@ func get_forwards() -> Vector3:
 
 func get_projected_forwards() -> Vector3:
 	return -global_basis.z - (-global_basis.z).project(Vector3.UP)
+
+
+
+
+
+
+func kill() -> void: 
+	alive = false
+	set_collision_layer_value(13, false)
+	
+	#random jump
+	var up := Vector3.UP
+	up = up.rotated(Vector3.LEFT, randf_range(PI, -PI)/5.0)
+	up = up.rotated(Vector3.FORWARD, randf_range(PI, -PI)/5.0)
+	velocity += up.normalized() * 20
+	
+	look_at(get_forwards(), Vector3.DOWN)
