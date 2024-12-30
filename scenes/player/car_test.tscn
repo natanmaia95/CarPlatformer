@@ -169,8 +169,11 @@ _data = {
 
 [node name="Car" type="CharacterBody3D"]
 collision_layer = 4097
+wall_min_slide_angle = 0.785398
 floor_stop_on_slope = false
+floor_constant_speed = true
 floor_max_angle = 1.22173
+floor_snap_length = 0.2
 script = ExtResource("1_dvvob")
 
 [node name="model" type="Node3D" parent="."]
